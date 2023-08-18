@@ -26,38 +26,27 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     public MySecurityConfig(PasswordEncoder enc, DbUserRepo repo) {
         this.enc = enc;
         this.repo = repo;
-       repo.saveAll(List.of(
-                //new DbUser("admin", enc.encode("admin"), "ADMIN")
+       /* repo.saveAll(List.of(
+              // new DbUser("admin", enc.encode("admin"), "ADMIN","USER")
 
-        ));
+        ));*/
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/guest/**").permitAll()
-                .antMatchers("/home/**").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/me/**").hasRole("USER")
-                .antMatchers("/news/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/navigation/**").hasRole("ADMIN")
+                .antMatchers("/accountCreate/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()
-
-
                 .defaultSuccessUrl("/navigation", true)
                 .failureUrl("/login.html?error=true")
-
+                .permitAll()
                 .and()
                 .logout()
-
-                .deleteCookies("JSESSIONID")
-                ;
-
-
-        http.formLogin().permitAll();
+                .deleteCookies("JSESSIONID");
     }
-
 
 
 }

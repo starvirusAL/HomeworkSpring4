@@ -20,7 +20,12 @@ public class Customer {
     private String name;
     private String email;
     private Integer age;
+    private String username;
     private String password;
+
+    private String roles;
+
+    private  final  String  DELIMITER = ":";
     private String phoneNumber;
     @ManyToOne
     @JoinColumn(name = "account_id")

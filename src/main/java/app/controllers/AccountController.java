@@ -1,17 +1,21 @@
 package app.controllers;
 
 import app.Service.AccountService;
+import app.dto.CustomerRequest;
 import app.models.Account;
 import app.models.InputItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -26,21 +30,16 @@ public class AccountController {
     }
 
     @PostMapping("accountCreate")
-    public String accountCreate(InputItems form, HttpServletRequest rq) {
+    public String accountCreate(InputItems form, HttpServletRequest rq,@Valid CustomerRequest customerRequest, BindingResult result) {
         Map<String, String[]> allParams = rq.getParameterMap();
         Account a = new Account(form.getInputCurrency());
         accountService.create(a);
         return "redirect:navigation";
     }
-    @GetMapping("accountCreate1")
-    public String findAllStudentsWithJpql(Model model) {
-        model.addAttribute("account", accountService.findAll());
 
-        return "redirect:navigation";
-
-    }
 
     @GetMapping("putMoney")
+
     public String moneyPut() {
         return "putMoney";
     }
@@ -75,7 +74,6 @@ public class AccountController {
         Account account1 = accountService.getAccountById(form.getIdAccount());
         Account account2 = accountService.getAccountById(form.getIdAccount2());
         accountService.transferMoney(account1, account2, form.getValueM());
-
         accountService.create(account1);
         accountService.create(account2);
         return "redirect:navigation";
@@ -85,12 +83,10 @@ public class AccountController {
         return "removeAccount";
     }
     @PostMapping("removeAccount")
-
     public String removeAccount(InputItems form, HttpServletRequest rq) {
         Map<String, String[]> allParams = rq.getParameterMap();
         Account account = accountService.getAccountById(form.getIdAccount());
         accountService.delete(account);
-
         return "redirect:navigation";
     }
     @GetMapping("balance")
@@ -102,7 +98,6 @@ public class AccountController {
     @ResponseBody
     public String balance(InputItems form, HttpServletRequest rq) {
         Map<String, String[]> allParams = rq.getParameterMap();
-
         return "Money on your balance:" + accountService.getAccountById(form.getIdAccount()).getBalance().toString();
     }
 

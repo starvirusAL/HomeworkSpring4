@@ -9,6 +9,8 @@ import app.models.Customer;
 import app.models.InputItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jetbrains.annotations.TestOnly;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +31,7 @@ public class CustomerController {
     private final EntityManager em;
 
     private final CustomerService customerService;
-    //private final CustomerMapper dtoCustomerMapper;
+
     private final AccountService accountService;
 
     @GetMapping("customer-create")
@@ -46,10 +48,10 @@ public class CustomerController {
         }
         Account account = accountService.getAccountById(form.getIdAccount());
         Customer customer = new Customer(form.getName(), form.getAge(), form.getEmail(), form.getPhoneNumber(), account);
-
         customerService.create(customer);
         return "redirect:navigation";
     }
+
 
 
     private Map<String, Object> data() {
