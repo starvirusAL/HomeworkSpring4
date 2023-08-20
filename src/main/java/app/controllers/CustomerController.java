@@ -16,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +96,14 @@ public class CustomerController {
         customerService.refactorCustomer(customer, form.getName(),form.getEmail(),form.getAge());
         customerService.create(customer);
         return "redirect:navigation";
+    }
+
+    @GetMapping("customer/delete/{id}")
+    @ResponseBody
+    public String delete(@PathVariable("id") int id) {
+        Customer customer = new Customer();
+        customerService.delete(customer);
+        return "Customer deleted";
     }
 
 }

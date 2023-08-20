@@ -1,5 +1,6 @@
 package app.Service;
 
+import app.dto.AccountResponseDto;
 import app.models.Account;
 import app.repo.AccountRepo;
 import app.serviceInterface.AccountServiceInterface;
@@ -52,6 +53,23 @@ public class AccountService implements AccountServiceInterface {
     }
 
 
+    public List<AccountResponseDto> show(Long id) {
+        return accountRepo.findById(id)
+                .stream()
+                .map(p -> {
+                    AccountResponseDto as = new AccountResponseDto() {{
 
-
+                        setNumber(p.getNumber());
+                        setCurrency(p.getCurrency());
+                        setBalance(p.getBalance());
+                    }};
+                    return as;
+                })
+                .filter(p -> p.getNumber() != null)
+                .filter(p -> !p.getNumber().isBlank())
+                .toList();
+    }
+    public void deleteAll() {
+        accountRepo.deleteAll();
+    }
 }

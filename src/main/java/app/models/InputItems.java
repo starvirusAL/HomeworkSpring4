@@ -12,6 +12,7 @@ public class InputItems {
   String phoneNumber;
   Double valueM;
   String address;
+  String password;
   Currency inputCurrency;
   int idCustomer;
   int idAccount;

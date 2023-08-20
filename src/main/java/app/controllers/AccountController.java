@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -100,5 +101,12 @@ public class AccountController {
         Map<String, String[]> allParams = rq.getParameterMap();
         return "Money on your balance:" + accountService.getAccountById(form.getIdAccount()).getBalance().toString();
     }
-
+    public String delete(Account account) {
+        accountService.delete(account);
+        return "Account deleted";
+    }
+    public String moneyGet(InputItems form, HttpServletRequest rq) {
+        accountService.withdrawBalance(accountService.getAccountById(form.getIdAccount()), form.getValueM());
+        return "redirect:navigation";
+    }
 }

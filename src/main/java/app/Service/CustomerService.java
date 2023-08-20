@@ -1,5 +1,6 @@
 package app.Service;
 
+import app.dto.CustomerResponseDto;
 import app.models.Account;
 import app.models.Customer;
 import app.repo.AccountRepo;
@@ -45,5 +46,24 @@ public class CustomerService implements CustomerServiceInterface {
     }
     public void accountAdd(Account a){
 
+    }
+    public List<CustomerResponseDto> showAll() {
+        return customerRepo.findAll()
+                .stream()
+                .map(p -> {
+                    CustomerResponseDto pp = new CustomerResponseDto() {{
+
+                        setName(p.getName());
+                        setAge(p.getAge());
+                        setEmail(p.getEmail());
+                        setPhoneNumber(p.getPhoneNumber());
+
+                        setEmployers(p.getEmployers());
+                    }};
+                    return pp;
+                })
+                .filter(p -> p.getName() != null)
+                .filter(p -> !p.getName().isBlank())
+                .toList();
     }
 }
