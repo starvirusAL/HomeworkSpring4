@@ -29,6 +29,7 @@ public class EmployerController {
         Map<String, String[]> allParams = rq.getParameterMap();
         Employer e = new Employer(form.getAddress(), form.getName());
         service.create(e);
+        log.info("Employer create");
         return "redirect:navigation";
     }
 

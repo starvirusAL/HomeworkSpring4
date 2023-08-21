@@ -51,6 +51,7 @@ public class CustomerController {
         Account account = accountService.getAccountById(form.getIdAccount());
         Customer customer = new Customer(form.getName(), form.getAge(), form.getEmail(), form.getPhoneNumber(), account);
         customerService.create(customer);
+        log.info("Customer create");
         return "redirect:navigation";
     }
 
@@ -67,6 +68,7 @@ public class CustomerController {
     @GetMapping("list")
     public String javaBooks1(Model model) {
         data().forEach((k, v) -> model.addAttribute(k, v));
+        log.info("Get list customer");
         return "listCustomer";
     }
 
@@ -81,6 +83,7 @@ public class CustomerController {
         Map<String, String[]> allParams = rq.getParameterMap();
         Customer customer = customerService.getCustomerById(form.getIdCustomer());
         customerService.delete(customer);
+        log.info("Customer remove");
         return "redirect:navigation";
     }
 
@@ -95,6 +98,7 @@ public class CustomerController {
         Customer customer = customerService.getCustomerById(form.getIdCustomer());
         customerService.refactorCustomer(customer, form.getName(),form.getEmail(),form.getAge());
         customerService.create(customer);
+        log.info("Customer remake");
         return "redirect:navigation";
     }
 

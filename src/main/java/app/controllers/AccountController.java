@@ -35,6 +35,7 @@ public class AccountController {
         Map<String, String[]> allParams = rq.getParameterMap();
         Account a = new Account(form.getInputCurrency());
         accountService.create(a);
+        log.info("Account create");
         return "redirect:navigation";
     }
 
@@ -50,6 +51,7 @@ public class AccountController {
         Account account = accountService.getAccountById(form.getIdAccount());
         accountService.replenishTheBalance(account, form.getValueM());
         accountService.create(account);
+        log.info("Money put on your balance");
         return "redirect:navigation";
     }
     @GetMapping("withdrawMoney")
@@ -62,6 +64,7 @@ public class AccountController {
         Account account = accountService.getAccountById(form.getIdAccount());
         accountService.withdrawBalance(account, form.getValueM());
         accountService.create(account);
+        log.info("Money withdraw from your balance");
         return "redirect:navigation";
     }
 
@@ -77,6 +80,7 @@ public class AccountController {
         accountService.transferMoney(account1, account2, form.getValueM());
         accountService.create(account1);
         accountService.create(account2);
+        log.info("Money transfer from {} on balance {}", account1,account2);
         return "redirect:navigation";
     }
     @GetMapping("removeAccount")
@@ -88,6 +92,7 @@ public class AccountController {
         Map<String, String[]> allParams = rq.getParameterMap();
         Account account = accountService.getAccountById(form.getIdAccount());
         accountService.delete(account);
+        log.info("Account remove");
         return "redirect:navigation";
     }
     @GetMapping("balance")
@@ -99,6 +104,7 @@ public class AccountController {
     @ResponseBody
     public String balance(InputItems form, HttpServletRequest rq) {
         Map<String, String[]> allParams = rq.getParameterMap();
+        log.info("Money on your balance:" + accountService.getAccountById(form.getIdAccount()).getBalance().toString());
         return "Money on your balance:" + accountService.getAccountById(form.getIdAccount()).getBalance().toString();
     }
     public String delete(Account account) {
